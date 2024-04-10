@@ -69,7 +69,7 @@ void messageReceived(String &topic, String &payload) {
             Serial.println("Apagando Led1");
             digitalWrite(A0, LOW);
         }  
-    } else if(topic = "A3-467/puesto6/led2) {
+    } else if(topic = "A3-467/puesto6/led2") {
         if (payload = "ON") {
             digitalWrite(A0, HIGH);
             client.publish("A3-467/puesto6/led1", ";");
