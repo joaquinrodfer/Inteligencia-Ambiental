@@ -59,34 +59,27 @@ void setup() {
 }
 
 void messageReceived(String &topic, String &payload) {
-        if (payload == "1;") {
-          if (led1 == false){
+    if (topic = "A3-467/puesto6/led1") {
+        if (payload = "ON") {
             digitalWrite(A0, HIGH);
             client.publish("A3-467/puesto6/led1", ";");
             Serial.println("Encendiendo Led1");
-            led1=true;
-          }else{
+        } else if (payload = "OFF"){
             client.publish("A3-467/puesto6/led1", ";");
             Serial.println("Apagando Led1");
             digitalWrite(A0, LOW);
-            led1=false;
-          }
-        }
-        if (payload == "2;") {
-          if (led2 == false){
-            digitalWrite(A1, HIGH);
-            
-            client.publish("A3-467/puesto6/led2", ";");
-            Serial.println("Encendiendo Led2");
-            led2=true;
-          }else{
-            client.publish("A3-467/puesto6/led2", ";");
-            Serial.println("Apagando Led2");
-            digitalWrite(A1, LOW);       
-            led2=false;
-          }
-        }
-    
+        }  
+    } else if(topic = "A3-467/puesto6/led2) {
+        if (payload = "ON") {
+            digitalWrite(A0, HIGH);
+            client.publish("A3-467/puesto6/led1", ";");
+            Serial.println("Encendiendo Led1");
+        } else if (payload = "OFF"){
+            client.publish("A3-467/puesto6/led1", ";");
+            Serial.println("Apagando Led1");
+            digitalWrite(A0, LOW);
+        }  
+    }    
 }
 
 
