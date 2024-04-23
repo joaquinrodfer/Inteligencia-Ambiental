@@ -6,15 +6,21 @@ port = 1883
 user = "TP-LINK_7794"
 password = "00280549"
 topic = "map"
+map_received = False
+mapCode = ""
 
 def run(client: mqtt):
-    while True:
+    while not map_received:
         subscribe(client)
         client.loop()
 
 def subscribe(client: mqtt):
     def on_message(client, userdata, msg):
         print(f"Received `{msg.payload.decode()}` from `{msg.topic}` topic")
+        global map_received
+        map_received = True
+        global mapCode
+        mapCode = msg.payload.decode()
 
     client.subscribe(topic)
     client.on_message = on_message
@@ -23,8 +29,10 @@ def subscribe(client: mqtt):
 def main():
     client = mqtt.Client(mqtt.CallbackAPIVersion.VERSION1, "puesto6")
     client.connect(broker_address, port)
-
     run(client)
+
+    city = cityMap(mapCode)
+    print(city.cityMap)
 
 if __name__ == "__main__":
     main()
