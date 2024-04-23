@@ -8,6 +8,7 @@ password = "00280549"
 topic = "map"
 map_received = False
 mapCode = ""
+mapNotMQTT = "0202000105030705000200041109060110031000000200080101100110000106010701"
 
 def run(client: mqtt):
     while not map_received:
