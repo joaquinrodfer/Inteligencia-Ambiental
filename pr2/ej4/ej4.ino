@@ -4,7 +4,7 @@
 
 const char ssid[] = "TP-LINK_7794";
 const char pass[] = "00280549";
-bool led1 = false;
+boolean led1 = false;
 boolean led2 = false;
 String numero;
 WiFiClient net;
@@ -38,7 +38,7 @@ void connect() {
     Serial.println("\nConnected!");
     client.subscribe("A3-467/puesto6/led1");
     client.subscribe("A3-467/puesto6/led2");
-    client.subscribe("A3-467/puesto6/potenciometro");
+    //client.subscribe("A3-467/puesto6/potenciometro");
 }
 
 void setup() {
@@ -47,6 +47,8 @@ void setup() {
     while (!Serial) {
         delay(10);
     }
+    digitalWrite(A0, LOW);
+    digitalWrite(A1, LOW);
     pinMode(0, OUTPUT);
     pinMode(1, OUTPUT);
     Serial.println("Iniciando conexión wifi");
@@ -59,25 +61,26 @@ void setup() {
 }
 
 void messageReceived(String &topic, String &payload) {
-    if (topic = "A3-467/puesto6/led1") {
-        if (payload = "ON") {
+    if (topic == "A3-467/puesto6/led1") {
+      Serial.println(payload);
+        if (payload == "ON") {
             digitalWrite(A0, HIGH);
             //client.publish("A3-467/puesto6/led1", ";");
-            //Serial.println("Encendiendo Led1");
-        } else if (payload = "OFF"){
+            Serial.println("Encendiendo Led1");
+        } else if (payload == "OFF"){
             //client.publish("A3-467/puesto6/led1", ";");
-            //Serial.println("Apagando Led1");
+            Serial.println("Apagando Led1");
             digitalWrite(A0, LOW);
         }  
-    } else if(topic = "A3-467/puesto6/led2") {
-        if (payload = "ON") {
-            digitalWrite(A0, HIGH);
+    }else if(topic == "A3-467/puesto6/led2") {
+        if (payload == "ON") {
+            digitalWrite(A1, HIGH);
             //client.publish("A3-467/puesto6/led2", ";");
-            //Serial.println("Encendiendo Led1");
-        } else if (payload = "OFF"){
+            Serial.println("Encendiendo Led2");
+        } else if (payload == "OFF"){
             //client.publish("A3-467/puesto6/led2", ";");
-            //Serial.println("Apagando Led2");
-            digitalWrite(A0, LOW);
+            Serial.println("Apagando Led2");
+            digitalWrite(A1, LOW);
         }  
     }
 }
@@ -94,7 +97,7 @@ void loop() {
       lastMillis = millis();
       potenciometro = analogRead(A3);
       String potenciometro_str = String(potenciometro);
-      Serial.println(potenciometro);
+      //Serial.println(potenciometro);
       client.publish(topic3, potenciometro_str);
     }
 }
