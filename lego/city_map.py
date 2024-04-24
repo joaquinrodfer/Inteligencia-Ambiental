@@ -1,11 +1,10 @@
 from road import Road
+from best_path import get_neighbors
 
 class CityMap:
     def __init__(self, mapCode) -> None:
         self.cityMap = self.__parse_map(mapCode)
-
-    def distancia_manhattan(self, pos_actual, pos_destino):
-        return abs(pos_actual[0] - pos_destino[0]) + abs(pos_actual[1] - pos_destino[1])
+        get_neighbors(self.cityMap)
     
     def print_directions(self):
         for row in self.cityMap:
