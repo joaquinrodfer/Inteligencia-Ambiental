@@ -1,4 +1,4 @@
-from city_map import cityMap
+from city_map import CityMap
 import paho.mqtt.client as mqtt
 
 broker_address = "192.168.48.245"
@@ -28,12 +28,15 @@ def subscribe(client: mqtt):
     
 
 def main():
-    client = mqtt.Client(mqtt.CallbackAPIVersion.VERSION1, "puesto6")
-    client.connect(broker_address, port)
-    run(client)
+    #En caso de no estar conectado a MQTT
+    city = CityMap(mapNotMQTT)
 
-    city = cityMap(mapCode)
-    print(city.cityMap)
+    # client = mqtt.Client(mqtt.CallbackAPIVersion.VERSION1, "puesto6")
+    # client.connect(broker_address, port)
+    # run(client)
+    # city = cityMap(mapCode)
+
+    print(city.cityMap[0][0].coordinates)
 
 if __name__ == "__main__":
     main()
