@@ -36,7 +36,7 @@ def main():
     # run(client)
     # city = cityMap(mapCode)
 
-    city.print_directions()
+    city.print_streets()
 
 if __name__ == "__main__":
     main()

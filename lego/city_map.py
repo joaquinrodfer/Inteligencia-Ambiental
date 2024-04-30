@@ -3,11 +3,12 @@ from road import Road
 class CityMap:
     def __init__(self, mapCode) -> None:
         self.cityMap = self.__parse_map(mapCode)
+        self.solutions = []
     
-    def print_directions(self):
+    def print_streets(self):
         for row in self.cityMap:
             for road in row:
-                print(road.directions)
+                print(road.street, end=" ")
             print()
 
     def print_map_codes(self):
@@ -29,9 +30,13 @@ class CityMap:
 
         return matrix
     
-    def ma_wey(self, start, end):
-        
-
-    def __ma_wey(self, start, end):
-        pass
+    def __get_neighbors(actual, rows, cols):
+    i, j = actual
+    vecinos = []
+    movimientos = [(0, 1), (0, -1), (1, 0), (-1, 0)]
+    for di, dj in movimientos:
+        ni, nj = i + di, j + dj
+        if 0 <= ni < rows and 0 <= nj < cols:
+            vecinos.append((ni, nj))
+    return vecinos
         

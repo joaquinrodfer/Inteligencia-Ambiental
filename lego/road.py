@@ -1,10 +1,10 @@
 class Road:
     def __init__(self, code, coordinates):
         self.code = code
-        self.directions = self.__parse_directions(code)
+        self.street = self.__parse_street(code)
         self.coordinates = coordinates
 
-    def __parse_directions(self, code):
+    def __parse_street(self, code):
         if(code == '00'):
             return 0
         else: 
