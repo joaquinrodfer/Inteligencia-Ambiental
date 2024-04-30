@@ -1,6 +1,4 @@
 from road import Road
-from best_path import get_neighbors
-import matplotlib.pyplot as plt
 
 class CityMap:
     def __init__(self, mapCode) -> None:
@@ -29,4 +27,11 @@ class CityMap:
 
             matrix.append(row)
 
-        return matrix;
+        return matrix
+    
+    def ma_wey(self, start, end):
+        
+
+    def __ma_wey(self, start, end):
+        pass
+        
