@@ -5,7 +5,6 @@ import matplotlib.pyplot as plt
 class CityMap:
     def __init__(self, mapCode) -> None:
         self.cityMap = self.__parse_map(mapCode)
-        get_neighbors(self.cityMap)
     
     def print_directions(self):
         for row in self.cityMap:
