@@ -36,11 +36,7 @@ def main():
     # run(client)
     # city = cityMap(mapCode)
 
-    for row in city.cityMap:
-        for road in row:
-            for neighbor in road.neighbors:
-                print(neighbor.code, end=" ")
-            print()
+    city.print_directions()
 
 if __name__ == "__main__":
     main()
