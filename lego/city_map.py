@@ -12,6 +12,10 @@ class CityMap:
                 print(road.directions)
             print()
 
+    def get_directions(self,x,y):
+        road_object = self.cityMap[x][y]
+        return road_object.directions
+
     def print_map_codes(self):
         for row in self.cityMap:
             for road in row:
