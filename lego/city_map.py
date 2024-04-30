@@ -30,4 +30,4 @@ class CityMap:
 
             matrix.append(row)
 
-        return matrix;
+        return matrix
