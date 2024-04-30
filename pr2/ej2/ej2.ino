@@ -11,7 +11,7 @@ WiFiClient net;
 MQTTClient client;
 unsigned long lastMillis = 0;
 
-const char broker[] = "192.168.0.100";
+const char broker[] = "192.168.48.245";
 int port = 1883;
 const char topic1[] = "A3-467/puesto6/led1";
 const char topic2[] = "A3-467/puesto6/led2";
@@ -59,34 +59,28 @@ void setup() {
 }
 
 void messageReceived(String &topic, String &payload) {
-        if (payload == "1;") {
-          if (led1 == false){
-            digitalWrite(A0, HIGH);
-            client.publish("A3-467/puesto6/led1", ";");
-            Serial.println("Encendiendo Led1");
-            led1=true;
-          }else{
-            client.publish("A3-467/puesto6/led1", ";");
-            Serial.println("Apagando Led1");
-            digitalWrite(A0, LOW);
-            led1=false;
-          }
-        }
-        if (payload == "2;") {
-          if (led2 == false){
-            digitalWrite(A1, HIGH);
-            
-            client.publish("A3-467/puesto6/led2", ";");
-            Serial.println("Encendiendo Led2");
-            led2=true;
-          }else{
-            client.publish("A3-467/puesto6/led2", ";");
-            Serial.println("Apagando Led2");
-            digitalWrite(A1, LOW);       
-            led2=false;
-          }
-        }
-    
+  if (payload == "1") {
+    if (led1 == false){
+      digitalWrite(A0, HIGH);
+      Serial.println("Encendiendo Led1");
+      led1=true;
+    }else{
+      Serial.println("Apagando Led1");
+      digitalWrite(A0, LOW);
+      led1=false;
+    }
+  }
+  if (payload == "2") {
+    if (led2 == false){
+      digitalWrite(A1, HIGH);
+      Serial.println("Encendiendo Led2");
+      led2=true;
+    }else{
+      Serial.println("Apagando Led2");
+      digitalWrite(A1, LOW);       
+      led2=false;
+    }
+  }   
 }
 
 

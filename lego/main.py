@@ -25,11 +25,11 @@ def subscribe(client: mqtt):
 
     client.subscribe(topic)
     client.on_message = on_message
-    
 
 def main():
     #En caso de no estar conectado a MQTT
     city = CityMap(mapNotMQTT)
+
 
     # client = mqtt.Client(mqtt.CallbackAPIVersion.VERSION1, "puesto6")
     # client.connect(broker_address, port)
