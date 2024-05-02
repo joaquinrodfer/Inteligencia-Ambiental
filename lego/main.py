@@ -36,7 +36,7 @@ def main():
     # run(client)
     # city = cityMap(mapCode)
 
-    city.print_streets()
+    print(city.find_quickest_path((6, 0), (3, 0)))
 
 if __name__ == "__main__":
     main()
