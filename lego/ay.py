@@ -1,35 +1,37 @@
-def encontrar_camino(matriz, inicio, destino):
+from collections import deque
+
+def encontrar_camino_mas_rapido(matriz, inicio, destino):
     if inicio == destino:
         return []
 
     rows = len(matriz)
     cols = len(matriz[0])
 
-    camino = []
     visitado = set()
     padre = {}
 
-    camino.append(inicio)
+    queue = deque()
+    queue.append(inicio)
     visitado.add(inicio)
 
-    while camino:
-        actual = camino.pop()
+    while queue:
+        actual = queue.popleft()
 
         if actual == destino:
-            # Reconstruir el camino encontrado
-            return reconstruir_camino(padre, inicio, destino)
+            # Reconstruir el camino más corto
+            return reconstruir_camino_mas_corto(padre, inicio, destino)
 
         vecinos = obtener_vecinos(actual, rows, cols)
         for vecino in vecinos:
             if vecino not in visitado and matriz[vecino[0]][vecino[1]] == 1:
                 visitado.add(vecino)
-                camino.append(vecino)
+                queue.append(vecino)
                 padre[vecino] = actual
 
     return "No se encontró camino"
 
 
-def reconstruir_camino(padre, inicio, destino):
+def reconstruir_camino_mas_corto(padre, inicio, destino):
     camino = []
     actual = destino
     while actual != inicio:
@@ -61,8 +63,8 @@ matriz = [
     [1, 1, 1, 1, 1]
 ]
 
-inicio = (5, 0)
-destino = (5, 3)
+inicio = (6, 0)
+destino = (3, 0)
 
-camino_mas_rapido = encontrar_camino(matriz, inicio, destino)
+camino_mas_rapido = encontrar_camino_mas_rapido(matriz, inicio, destino)
 print("Camino más rápido:", camino_mas_rapido)
