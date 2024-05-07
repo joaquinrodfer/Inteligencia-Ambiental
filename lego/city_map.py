@@ -1,6 +1,6 @@
 from road import Road
 from best_path import get_neighbors
-import matplotlib.pyplot as plt
+#import matplotlib.pyplot as plt
 
 class CityMap:
     def __init__(self, mapCode) -> None:
@@ -16,6 +16,10 @@ class CityMap:
     def get_directions(self,x,y):
         road_object = self.cityMap[x][y]
         return road_object.directions
+
+    def get_codes(self,x,y):
+        road_object = self.cityMap[x][y]
+        return road_object.code
 
     def print_map_codes(self):
         for row in self.cityMap:
@@ -34,4 +38,4 @@ class CityMap:
 
             matrix.append(row)
 
-        return matrix;
+        return matrix
