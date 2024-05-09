@@ -1,4 +1,5 @@
 from city_map import CityMap
+from board_solution import calculoSiguienteCasilla
 import paho.mqtt.client as mqtt
 
 broker_address = "192.168.48.245"
@@ -36,7 +37,8 @@ def main():
     # run(client)
     # city = cityMap(mapCode)
 
-    city.print_directions()
+    print(city.find_quickest_path((6, 4), (4, 4)))
+
 
 if __name__ == "__main__":
     main()
