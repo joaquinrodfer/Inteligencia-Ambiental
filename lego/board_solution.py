@@ -14,12 +14,12 @@ def calculoSiguienteCasilla(arrSolucion):
             casillaAnterior = arrSolucion[i-1]
         else:
             #Aqui se deberia coger el id de la casilla y asi se sabria para donde ir, ya que estamos en una esquina.
-            orientacion=3 #Que va hacia la derecha mirando el mapa desde abajo
+            orientacion=2 #Que va hacia la izquierda mirando el mapa desde abajo
 
         if(casillaSiguiente[0] == casillaActual[0]):
             #Hay que seguir recto porque el siguiente movimiento es en la misma fila o columna
             #Orientacion 0=ARRIBA 1=ABAJO 2=IZQUIERDA 3=DERECHA 
-            if (casillaActual[1] < casillaSiguiente[1]):
+            if (casillaActual[1] > casillaSiguiente[1]):
                 if(orientacion == 2):
                     loquehase=0
                 elif orientacion == 0:
@@ -28,7 +28,7 @@ def calculoSiguienteCasilla(arrSolucion):
                     loquehase=90
                 else:
                     loquehase=-180
-            elif (casillaActual[1] > casillaSiguiente[1]):
+            elif (casillaActual[1] < casillaSiguiente[1]):
                 if(orientacion == 2):
                     loquehase=180
                 elif orientacion == 0:
@@ -88,7 +88,7 @@ def calculoSiguienteCasilla(arrSolucion):
                 
 cityMap = CityMap(mapNotMQTT)
 
-print(cityMap.find_quickest_path((6,4),(2,4)))
-calculoSiguienteCasilla(cityMap.find_quickest_path((6,4),(2,4)))
+print(cityMap.find_quickest_path((6,4),(6,0)))
+calculoSiguienteCasilla(cityMap.find_quickest_path((6,4),(6,0)))
 
 print(miPilaLoQueHase)

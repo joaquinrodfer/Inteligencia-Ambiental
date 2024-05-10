@@ -1,4 +1,5 @@
 from road import Road
+from best_path import *
 from collections import deque
 
 class CityMap:
@@ -43,6 +44,34 @@ class CityMap:
     
     def find_quickest_path(self, begin, end):
         return self.__find_quickest_path(self.__get_matrix(), begin, end)
+    
+    def parse_directions(self, code):
+        if(code == '00'):
+            return []
+        elif(code == '01'):
+            return ['L', 'R']
+        elif(code == '02'):
+            return ['U', 'D']
+        elif(code == '03'):
+            return ['U', 'R']
+        elif(code == '04'):
+            return ['D', 'R']
+        elif(code == '05'):
+            return ['L', 'D']
+        elif(code == '06'):
+            return ['L', 'U']
+        elif(code == '07'):
+            return ['L', 'U', 'R']
+        elif(code == '08'):
+            return ['U', 'D', 'R']
+        elif(code == '09'):
+            return ['L', 'D', 'R']
+        elif(code == '10'):
+            return ['L', 'U', 'D']
+        elif(code == '11'):
+            return ['L', 'U', 'D', 'R']
+        return []
+    
 
     def __find_quickest_path(self, matrix, begin, end):
         if begin == end:
@@ -90,6 +119,12 @@ class CityMap:
         for di, dj in movimientos:
             ni, nj = i + di, j + dj
             if 0 <= ni < rows and 0 <= nj < cols:
-                vecinos.append((ni, nj))
+                
+                direccionesCasilla = self.parse_directions(self.cityMap[i][j].code)
+                direccionesCasillaAMirar = self.parse_directions(self.cityMap[i+di][j+dj].code)
+                
+                codeCasilla = self.cityMap[i][j].code
+                if (di == -1 and 'U' in direccionesCasilla) or (di == 1 and 'D' in direccionesCasilla) or (dj == -1 and 'L' in direccionesCasilla) or (dj == 1 and 'R' in direccionesCasilla):
+                    if (di == -1 and 'D' in direccionesCasillaAMirar) or (di == 1 and 'U' in direccionesCasillaAMirar) or (dj == -1 and 'R' in direccionesCasillaAMirar) or (dj == 1 and 'L' in direccionesCasillaAMirar):
+                        vecinos.append((ni, nj))
         return vecinos
-        

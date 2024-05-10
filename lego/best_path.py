@@ -20,5 +20,7 @@ def get_neighbors(map):
                 neighbor = map[road.coordinates[0]][road.coordinates[1] + 1]
                 if neighbor.code != '00':
                     road.neighbors.append(neighbor)
+    
+    return road.neighbors
 
     

@@ -3,6 +3,7 @@ class Road:
         self.code = code
         self.street = self.__parse_street(code)
         self.coordinates = coordinates
+        self.directions = self.__parse_directions(code)
 
     def __parse_street(self, code):
         if(code == '00'):
