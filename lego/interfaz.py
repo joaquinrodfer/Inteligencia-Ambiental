@@ -1,6 +1,7 @@
 import tkinter as tk
 import threading
 import city_map as cm
+from board_solution import calculoSiguienteCasilla
 import main as main
 import paho.mqtt.client as mqtt_client
 import paho.mqtt.subscribe as subscribe
@@ -15,6 +16,7 @@ map_received = False
 mapCode = ""
 mapNotMQTT = "0202000105030705000200041109060110031000000200080101100110000106010701"
 
+cityMap = cm.CityMap(mapNotMQTT)
 puntosEntrega= []
 
 def connect_mqtt() -> mqtt_client:
@@ -64,13 +66,17 @@ def muestraPtosEntrega():
 def anadePtos(coordenada):
     puntosEntrega.append(coordenada)
     muestraPtosEntrega()
-    enviar_mensaje(coordenada)
+    if len(puntosEntrega) == 2:
+        if cityMap.cityMap[coordenada[0]][coordenada[1]].code == '01':
+            print(calculoSiguienteCasilla(cityMap.find_quickest_path((puntosEntrega[0][0],puntosEntrega[0][1]), (puntosEntrega[1][0],puntosEntrega[1][1])), 3))
+        else:
+            print(calculoSiguienteCasilla(cityMap.find_quickest_path((puntosEntrega[0][0],puntosEntrega[0][1]), (puntosEntrega[1][0],puntosEntrega[1][1])), 0))
+            
+        puntosEntrega.clear()
 
 # función para pintar el mapa
 # TODO: poner para que no se puedan seleccioanr los ptos en los que no se pueda entregar
-def paintMap():
-    cityMap = cm.CityMap(mapNotMQTT)
-    
+def paintMap():    
     # Crear una matriz de botones
     matriz_botones = []
     for fila in range(len(cityMap.cityMap)):

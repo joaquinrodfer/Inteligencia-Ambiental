@@ -37,7 +37,8 @@ def main():
     # run(client)
     # city = cityMap(mapCode)
 
-    print(city.find_quickest_path((6, 4), (4, 4)))
+    print(calculoSiguienteCasilla(city.find_quickest_path((6, 0), (5, 2)), 3))
+    
 
 
 if __name__ == "__main__":
