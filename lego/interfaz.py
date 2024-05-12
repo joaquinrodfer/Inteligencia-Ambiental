@@ -83,17 +83,10 @@ def muestraPtosEntrega():
         enunciado=tk.Label(frame_puntos_entrega, text=f"{puntosEntrega[fila]}")
         enunciado.pack()
 
-# función para mostrar los puntos de entrega seleccionados
-def muestraCola():
-    for fila in range(len(puntosEntrega)):
-        enunciado=tk.Label(frame_cola, text=f"{puntosEntrega[fila]}")
-        enunciado.pack()
-
 # función para recoger las coordenadas del boton pulsadas
 def anadePtos(coordenada):    
     puntosEntrega.append(coordenada)
     muestraPtosEntrega()
-    muestraCola()
     if len(puntosEntrega) == 2:
             rutaCasillas.append(cityMap.find_quickest_path((puntosEntrega[0][0],puntosEntrega[0][1]), (puntosEntrega[1][0],puntosEntrega[1][1]))) 
         
@@ -188,12 +181,6 @@ enunciado.pack(pady=7)
 # Frame para los puntos de entrega
 frame_puntos_entrega = tk.Frame(ventana)
 frame_puntos_entrega.pack()
-
-# Enunciado
-enunciado = tk.Label(ventana, text="Cola de pedidos", font=LARGEFONT)
-enunciado.pack(pady=7) 
-frame_cola = tk.Frame(ventana)
-frame_cola.pack
 
 # Enunciado
 enunciado = tk.Label(ventana, text="Posicionamiento del repartidor", font=LARGEFONT)
