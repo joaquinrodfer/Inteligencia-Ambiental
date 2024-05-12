@@ -18,6 +18,8 @@ mapNotMQTT = "020200010503070500020004110906011003100000020008010110011000010601
 
 cityMap = cm.CityMap(mapNotMQTT)
 puntosEntrega= []
+rutaCasillas = []
+Auxiliar = []
 
 def connect_mqtt() -> mqtt_client:
     def on_connect(client, userdata, flags, rc):
@@ -67,12 +69,16 @@ def anadePtos(coordenada):
     puntosEntrega.append(coordenada)
     muestraPtosEntrega()
     if len(puntosEntrega) == 2:
-        if cityMap.cityMap[coordenada[0]][coordenada[1]].code == '01':
-            print(calculoSiguienteCasilla(cityMap.find_quickest_path((puntosEntrega[0][0],puntosEntrega[0][1]), (puntosEntrega[1][0],puntosEntrega[1][1])), 3))
-        else:
-            print(calculoSiguienteCasilla(cityMap.find_quickest_path((puntosEntrega[0][0],puntosEntrega[0][1]), (puntosEntrega[1][0],puntosEntrega[1][1])), 0))
-            
-        puntosEntrega.clear()
+            rutaCasillas.append(cityMap.find_quickest_path((puntosEntrega[0][0],puntosEntrega[0][1]), (puntosEntrega[1][0],puntosEntrega[1][1]))) 
+        
+    if len(puntosEntrega) == 4:
+            rutaCasillas.append(cityMap.find_quickest_path((puntosEntrega[2][0],puntosEntrega[2][1]), (puntosEntrega[3][0],puntosEntrega[3][1])))
+            rutaCasillas[1].pop(0)
+            print(rutaCasillas[1])
+            Auxiliar = rutaCasillas[0] + rutaCasillas[1]
+            print(calculoSiguienteCasilla(Auxiliar, 3))
+            puntosEntrega.clear()
+            rutaCasillas.clear()
 
 # función para pintar el mapa
 # TODO: poner para que no se puedan seleccioanr los ptos en los que no se pueda entregar

@@ -61,20 +61,28 @@ def calculoSiguienteCasilla(arrSolucion, orientacion):
                 orientacion=3
             elif loquehase == 90:
                 orientacion=2
+            elif loquehase == 180:
+                orientacion=1
         elif orientacion == 1:
             if loquehase == -90:
                 orientacion=2
             elif loquehase == 90:
                 orientacion=3
+            elif loquehase == 180:
+                orientacion=0
         elif orientacion == 2:
             if loquehase == -90:
                 orientacion=0
             elif loquehase == 90:
                 orientacion=1
+            elif loquehase == 180:
+                orientacion=3
         elif orientacion == 3:
             if loquehase == -90:
                 orientacion=1
             elif loquehase == 90:
                 orientacion=0
+            elif loquehase == 180:
+                orientacion=2
 
     return miPilaLoQueHase
