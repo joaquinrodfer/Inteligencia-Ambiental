@@ -80,15 +80,20 @@ def muestraPtosEntrega():
             widget.destroy()
 
     for fila in range(len(puntosEntrega)):
-        #if(cityMap.get_codes(puntosEntrega[fila])):
-        enunciado=tk.Label(frame_puntos_entrega, text=f"Punto de entrega seleccionado: {puntosEntrega[fila]}")
+        enunciado=tk.Label(frame_puntos_entrega, text=f"{puntosEntrega[fila]}")
+        enunciado.pack()
+
+# función para mostrar los puntos de entrega seleccionados
+def muestraCola():
+    for fila in range(len(puntosEntrega)):
+        enunciado=tk.Label(frame_cola, text=f"{puntosEntrega[fila]}")
         enunciado.pack()
 
 # función para recoger las coordenadas del boton pulsadas
 def anadePtos(coordenada):    
-    
     puntosEntrega.append(coordenada)
     muestraPtosEntrega()
+    muestraCola()
     if len(puntosEntrega) == 2:
             rutaCasillas.append(cityMap.find_quickest_path((puntosEntrega[0][0],puntosEntrega[0][1]), (puntosEntrega[1][0],puntosEntrega[1][1]))) 
         
@@ -124,6 +129,7 @@ def paintMap():
             fila_botones.append(boton)
             lista_imagenes.append(photo)
         matriz_botones.append(fila_botones)
+    
 
 class Tablero(tk.Canvas):
     def __init__(self, master, filas, columnas, size, **kwargs):
@@ -161,22 +167,44 @@ ventana = tk.Tk()
 ventana.title("LesGooo")
 ventana.geometry("700x900")
 
+# Estilo de fuente
 LARGEFONT = ("Verdana", 20)
 
-enunciado = tk.Label(ventana, text="Seleccione el punto de entrega")
-enunciado.pack()
+# Etiqueta para el enunciado
+enunciado = tk.Label(ventana, text="Seleccione el punto de entrega", font=LARGEFONT)
+enunciado.pack(pady=10)
 
-#frame para contener los botones
+# Frame para contener los botones
 frame = tk.Frame(ventana)
 frame.pack()
+paintMap()
 
-# frame para los ptos de entrega
+# Estilo de fuente
+LARGEFONT = ("Verdana", 15)
+# Enunciado
+enunciado = tk.Label(ventana, text="Punto de entrega seleccionado", font=LARGEFONT)
+enunciado.pack(pady=7) 
+
+# Frame para los puntos de entrega
 frame_puntos_entrega = tk.Frame(ventana)
 frame_puntos_entrega.pack()
 
-tableroLEGO= Tablero(ventana, filas=7,columnas=5,size=40)
-tableroLEGO.pack()
+# Enunciado
+enunciado = tk.Label(ventana, text="Cola de pedidos", font=LARGEFONT)
+enunciado.pack(pady=7) 
+frame_cola = tk.Frame(ventana)
+frame_cola.pack
 
-paintMap()
+# Enunciado
+enunciado = tk.Label(ventana, text="Posicionamiento del repartidor", font=LARGEFONT)
+enunciado.pack(pady=7) 
+# Creamos el tablero LEGO
+tableroLEGO = Tablero(ventana, filas=7, columnas=5, size=40)
+tableroLEGO.pack(pady=20)  # Añadimos espacio debajo del tablero
 
 ventana.mainloop()
+
+
+
+ventana.mainloop()
+
