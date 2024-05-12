@@ -1,13 +1,22 @@
 class Road:
     def __init__(self, code, coordinates):
         self.code = code
-        self.directions = self.__parse_directions(code)
+        self.street = self.__parse_street(code)
         self.coordinates = coordinates
-        self.neighbors = []
+        self.directions = self.__parse_directions(code)
 
+<<<<<<< HEAD
     def get_codes(self,fila,columna):
         return self.code
 
+=======
+    def __parse_street(self, code):
+        if(code == '00'):
+            return 0
+        else: 
+            return 1
+    
+>>>>>>> 85096a4b799981e388066ee8665df0d25526d0d7
     def __parse_directions(self, code):
         if(code == '00'):
             return []

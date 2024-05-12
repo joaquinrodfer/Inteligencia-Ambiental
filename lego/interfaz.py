@@ -1,6 +1,7 @@
 import tkinter as tk
 import threading
 import city_map as cm
+from board_solution import calculoSiguienteCasilla
 import main as main
 import paho.mqtt.client as mqtt_client
 import paho.mqtt.subscribe as subscribe
@@ -18,9 +19,13 @@ map_received = False
 mapCode = ""
 mapNotMQTT = "0202000105030705000200041109060110031000000200080101100110000106010701"
 client = mqtt_client.Client(mqtt_client.CallbackAPIVersion.VERSION1, "GRUPOJ")
-
+cityMap = cm.CityMap(mapNotMQTT)
 puntosEntrega= []
+
 lista_imagenes=[]
+
+rutaCasillas = []
+Auxiliar = []
 
 def connect_mqtt() -> mqtt_client:
     def on_connect(client, userdata, flags, rc):
@@ -29,7 +34,6 @@ def connect_mqtt() -> mqtt_client:
         else:
             print("Failed to connect, return code %d\n", rc)
 
-    client = mqtt_client.Client(mqtt_client.CallbackAPIVersion.VERSION1, "GRUPOJ")
     client.on_connect = on_connect
     client.connect(broker_address, port)
     return client
@@ -85,17 +89,26 @@ def muestraPtosEntrega():
         enunciado.pack()
 
 # función para recoger las coordenadas del boton pulsadas
-def anadePtos(coordenada):
+def anadePtos(coordenada):    
     
     puntosEntrega.append(coordenada)
     muestraPtosEntrega()
+    if len(puntosEntrega) == 2:
+            rutaCasillas.append(cityMap.find_quickest_path((puntosEntrega[0][0],puntosEntrega[0][1]), (puntosEntrega[1][0],puntosEntrega[1][1]))) 
+        
+    if len(puntosEntrega) == 4:
+            rutaCasillas.append(cityMap.find_quickest_path((puntosEntrega[2][0],puntosEntrega[2][1]), (puntosEntrega[3][0],puntosEntrega[3][1])))
+            rutaCasillas[1].pop(0)
+            print(rutaCasillas[1])
+            Auxiliar = rutaCasillas[0] + rutaCasillas[1]
+            print(calculoSiguienteCasilla(Auxiliar, 3))
+            puntosEntrega.clear()
+            rutaCasillas.clear()
     enviar_mensaje("GRUPOJ")
 
 # función para pintar el mapa
 # TODO: poner para que no se puedan seleccioanr los ptos en los que no se pueda entregar
-def paintMap():
-    cityMap = cm.CityMap(mapNotMQTT)
-
+def paintMap():    
     # Crear una matriz de botones
     matriz_botones = []
     for fila in range(len(cityMap.cityMap)):
