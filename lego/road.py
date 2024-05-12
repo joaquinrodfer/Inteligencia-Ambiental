@@ -5,6 +5,9 @@ class Road:
         self.coordinates = coordinates
         self.neighbors = []
 
+    def get_codes(self,fila,columna):
+        return self.code
+
     def __parse_directions(self, code):
         if(code == '00'):
             return []
