@@ -40,16 +40,16 @@ def connect_mqtt() -> mqtt_client:
 
 def subscribe(client: mqtt_client):
     def on_message(client, userdata, msg):
-        print(f"Received `{msg.payload.decode()}` from `{msg.topic}` topic")
+        if(msg.topic == "GRUPOJ/posicion"):
+            tableroLEGO.dibujarTablero()
+            posiciones = msg.payload.decode().split(",")
+            x=float(posiciones[0])
+            y=float(posiciones[1])
+            tableroLEGO.localizarLEGO(x,y)
+        #print(f"Received `{msg.payload.decode()}` from `{msg.topic}` topic")
 
     client.subscribe(topic)
-    client.on_message = on_message
-
-def on_message(client,userdata,msg):
-    if(msg.topic == "GRUPOJ/posicion"):
-        
-        tableroLEGO.dibujarTablero()
-        #tableroLEGO.localizarLEGO(x,y)
+    client.on_message = on_message 
 
 def run():
     client = connect_mqtt()
@@ -70,10 +70,6 @@ def enviar_mensaje(topic):
 def start_mqtt_thread():
     mqtt_thread = threading.Thread(target=run, daemon=True)
     mqtt_thread.start()
-
-def recoge_mensaje():
-    msg = subscribe.simple("GRUPOJ/posicion", hostname=broker_address, port=port)
-    return msg
 
 # función para mostrar los puntos de entrega seleccionados
 def muestraPtosEntrega():
@@ -104,7 +100,7 @@ def anadePtos(coordenada):
             print(calculoSiguienteCasilla(Auxiliar, 3))
             puntosEntrega.clear()
             rutaCasillas.clear()
-    enviar_mensaje("GRUPOJ")
+    enviar_mensaje("GRUPOJ/entrega")
 
 # función para pintar el mapa
 # TODO: poner para que no se puedan seleccioanr los ptos en los que no se pueda entregar
