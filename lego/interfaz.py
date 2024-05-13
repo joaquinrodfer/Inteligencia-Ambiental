@@ -7,6 +7,7 @@ import paho.mqtt.client as mqtt_client
 import paho.mqtt.subscribe as subscribe
 from tkinter import PhotoImage
 from PIL import Image,ImageTk
+from odometry import actualizar_odometria
 
 # Configuración MQTT
 #broker_address = "192.168.48.245"
@@ -21,6 +22,7 @@ mapNotMQTT = "020200010503070500020004110906011003100000020008010110011000010601
 client = mqtt_client.Client(mqtt_client.CallbackAPIVersion.VERSION1, "GRUPOJ")
 cityMap = cm.CityMap(mapNotMQTT)
 puntosEntrega= []
+calcCasilla=[]
 
 lista_imagenes=[]
 
@@ -58,12 +60,14 @@ def run():
 
 # función para mandar mensajes
 def enviar_mensaje(topic):
-    coord=puntosEntrega.pop()
+    print(puntosEntrega)
+    coord=puntosEntrega
     coord_str = [str(x) for x in coord]
     cadena=', '.join(coord_str)
     
     try:
         client.publish(topic, cadena)
+        puntosEntrega.clear
     except Exception as e:
         print("Error al publicar el mensaje:", e)
 
@@ -83,22 +87,32 @@ def muestraPtosEntrega():
         enunciado=tk.Label(frame_puntos_entrega, text=f"{puntosEntrega[fila]}")
         enunciado.pack()
 
+def pintaPuntos():
+    for fila in calcCasilla:
+        x=float(calcCasilla[0][5])
+        y=float(calcCasilla[0][7])
+        tableroLEGO.localizarLEGO(x,y)
+
+
 # función para recoger las coordenadas del boton pulsadas
 def anadePtos(coordenada):    
     puntosEntrega.append(coordenada)
     muestraPtosEntrega()
     if len(puntosEntrega) == 2:
             rutaCasillas.append(cityMap.find_quickest_path((puntosEntrega[0][0],puntosEntrega[0][1]), (puntosEntrega[1][0],puntosEntrega[1][1]))) 
-        
+            #rutaCasillas.append(cityMap.find_quickest_path((puntosEntrega[1][0],puntosEntrega[1][1]), (puntosEntrega[2][0],puntosEntrega[2][1]))) 
+            #print (rutaCasillas)
     if len(puntosEntrega) == 4:
             rutaCasillas.append(cityMap.find_quickest_path((puntosEntrega[2][0],puntosEntrega[2][1]), (puntosEntrega[3][0],puntosEntrega[3][1])))
             rutaCasillas[1].pop(0)
-            print(rutaCasillas[1])
+            #print(rutaCasillas[1])
             Auxiliar = rutaCasillas[0] + rutaCasillas[1]
-            print(calculoSiguienteCasilla(Auxiliar, 3))
+            #print(calculoSiguienteCasilla(Auxiliar, 3))
+            calcCasilla.append(calculoSiguienteCasilla(Auxiliar, 3))
             puntosEntrega.clear()
             rutaCasillas.clear()
-    enviar_mensaje("GRUPOJ/entrega")
+            enviar_mensaje("GRUPOJ/entrega")
+    pintaPuntos()
 
 # función para pintar el mapa
 # TODO: poner para que no se puedan seleccioanr los ptos en los que no se pueda entregar
@@ -148,10 +162,16 @@ class Tablero(tk.Canvas):
                 self.create_rectangle(x1, y1, x2, y2, fill=color)
     
     def localizarLEGO(self, fila, columna):
+        actualizar_odometria()
         x = columna * self.size + self.size / 2
         y = fila * self.size + self.size / 2
-        pieza_id = self.create_oval(x - self.size / 4, y - self.size / 4, x + self.size / 4, y + self.size / 4)
-        self.piezas[(fila, columna)] = pieza_id
+        tamaño_triangulo = self.size / 4  # Define el tamaño del triángulo
+        # Coordenadas de los vértices del triángulo
+        puntos = [x - tamaño_triangulo, y + tamaño_triangulo,
+                  x + tamaño_triangulo, y + tamaño_triangulo,
+                  x, y - tamaño_triangulo]
+        # Dibujar el triángulo en la casilla
+        self.create_polygon(puntos, outline='black', fill='blue')
     
 
 start_mqtt_thread()
